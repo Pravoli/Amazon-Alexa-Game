@@ -1,0 +1,2 @@
+def StartCrypt():
+    return
