@@ -2,19 +2,18 @@ import urllib2
 import json
 from Rooms import *
 import random
+from SpeechOutputHelper import *
 
 room_dict = {
     "Mansion": "Mansion",
-    "Prison": "Prison",
-    "Crypt": "Crypt",
-    "Asylum": "Asylum",
-    "University": "Uni"
+    "Asylum": "Asylum"
 }
 
 def lambda_handler(event, context):
     if (event['session']['application']['applicationId'] !=
             "amzn1.ask.skill.45fa333f-e6c8-457c-b471-97ed2458243b"):
         raise ValueError("Invalid Application ID")
+
     if event["session"]["new"]:
         on_session_started({"requestId": event["request"]["requestId"]}, event["session"])
 
@@ -89,49 +88,9 @@ def on_intent(intent_request, session):
     else:
         raise ValueError("Invalid intent")
 
-
-def handle_session_end_request():
-    card_title = "Escape Room - Thanks"
-    speech_output = "Thank you for entering the Escape Room.  See you next time!"
-    should_end_session = True
-
-    return build_response({}, build_speechlet_response(card_title, speech_output, None, should_end_session))
-
-
-
 def get_room_name(room_name):
     return room_dict.get(room_name, "unkn")
 
 
-def build_speechlet_response(title, output, reprompt_text, should_end_session):
-    return {
-        "outputSpeech": {
-            "type": "PlainText",
-            "text": output
-        },
-        "card": {
-            "type": "Simple",
-            "title": title,
-            "content": output
-        },
-        "reprompt": {
-            "outputSpeech": {
-                "type": "PlainText",
-                "text": reprompt_text
-            }
-        },
-        "shouldEndSession": should_end_session
-    }
-
-def build_response(session_attributes, speechlet_response):
-    return {
-        "version": "1.0",
-        "sessionAttributes": session_attributes,
-        "response": speechlet_response
-    }
-
-def on_session_ended(session_ended_request, session):
-    print "Ending session."
-    # Cleanup goes here...
 
 
