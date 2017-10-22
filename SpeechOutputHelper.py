@@ -1,3 +1,13 @@
+view_dict = {
+    "above": "above",
+    "up" : "up",
+    "behind": "behind",
+    "back" : "back"
+}
+
+def get_view_name(view_name):
+    return view_dict.get(view_name, "unkn")
+
 def handle_session_end_request():
     card_title = "Escape Room - Thanks"
     speech_output = "Thank you for entering the Escape Room.  See you next time!"
